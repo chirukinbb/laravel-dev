@@ -5,13 +5,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: laravel-election-dev
+    container_name: laravel-dev-dev
     volumes:
       - ./:/var/www/html
       - vendor-data:/var/www/html/vendor
       - composer-cache:/root/.composer/cache
     ports:
-      - "8000:8000"
+      - "8080:8000"
     environment:
       - APP_ENV=local
       - APP_DEBUG=true
@@ -19,7 +19,7 @@ services:
       - DB_CONNECTION=mysql
       - DB_HOST=db
       - DB_PORT=3306
-      - DB_DATABASE=laravel_election
+      - DB_DATABASE=laravel_dev
       - DB_USERNAME=laravel_user
       - DB_PASSWORD=secret
     networks:
@@ -30,10 +30,10 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: laravel-election-db
+    container_name: laravel-dev-db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: laravel_election
+      MYSQL_DATABASE: laravel_dev
       MYSQL_USER: laravel_user
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: root
