@@ -4,6 +4,6 @@ namespace App\Http\Enums;
 
 enum RoleEnum: string
 {
-    case ADMIN = 'Admin';
+    case MASTER = 'Master';
     case USER = 'User';
 }

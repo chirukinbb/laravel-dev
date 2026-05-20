@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Authentication routes
@@ -37,5 +38,24 @@ Route::get("/dashboard", [\App\Http\Controllers\DashboardController::class, 'ind
 // Redirect root to login
 Route::get("/", function () {
     return redirect()->route('login');
+});
+
+// User management routes (protected)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])
+        ->middleware('role.permission:view users')
+        ->name('users.index');
+    Route::get('/users/create', [UserController::class, 'create'])
+        ->middleware('role.permission:create user')
+        ->name('users.create');
+    Route::post('/users', [UserController::class, 'store'])
+        ->middleware('role.permission:create user')
+        ->name('users.store');
+    Route::put('/users/{user}/role', [UserController::class, 'updateRole'])
+        ->middleware('role.permission:edit user role')
+        ->name('users.update-role');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])
+        ->middleware('role.permission:edit user role')
+        ->name('users.destroy');
 });
 

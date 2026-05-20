@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Enums\RoleEnum;
 use App\Models\User;
 use App\Notifications\NewUserNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -26,6 +28,21 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $request->post('email'), 'password' => $request->post('password')], true)) {
+            $user = Auth::user();
+
+            // Auto-verify email on first login if not verified
+            if (!$user->email_verified_at) {
+                $user->email_verified_at = now();
+                $user->save();
+            }
+
+            // Assign default User role if user has no roles
+            if ($user->roles->count() === 0) {
+                $userRole = Role::where('name', RoleEnum::USER->value)->first();
+                if ($userRole) {
+                    $user->assignRole($userRole);
+                }
+            }
 
             return redirect()->intended("/dashboard");
         }
@@ -49,8 +66,14 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($password),
+            'password' => Hash::make($password)
         ]);
+
+        // Assign default User role
+        $userRole = Role::where('name', RoleEnum::USER->value)->first();
+        if ($userRole) {
+            $user->assignRole($userRole);
+        }
 
         try {
             $user->notify(new NewUserNotification($password));

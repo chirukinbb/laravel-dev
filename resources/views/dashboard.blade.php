@@ -1,59 +1,227 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | {{env('APP_NAME')}}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
+@extends('adminlte::page')
 
-        .dashboard-card {
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="/">{{env('APP_NAME')}}</a>
-        <div class="navbar-nav ms-auto">
-            <span class="nav-item nav-link text-white">Welcome, {{ \Illuminate\Support\Facades\Auth::user()->name }}!</span>
-            <form method="POST" action="{{ route('logout') }}" class="nav-item">
-                @csrf
-                <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
-            </form>
-        </div>
-    </div>
-</nav>
+@section('title', 'Dashboard')
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card dashboard-card">
-                <div class="card-header bg-success text-white">
-                    <h4 class="mb-0"><i class="bi bi-speedometer2"></i> Dashboard</h4>
-                </div>
-                <div class="card-body">
-                    <h5>Welcome to your dashboard!</h5>
-                    <p>You have successfully logged in.</p>
-                    <div class="alert alert-info">
-                        <i class="bi bi-info-circle"></i> This is a protected page. Only authenticated users can see it.
+@section('content_header')
+    <h1>
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+        <small>Welcome back, {{ Auth::user()->name }}!</small>
+    </h1>
+@stop
+
+@section('content')
+    <div class="container-fluid">
+        {{-- Info boxes --}}
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>{{ Auth::user()->name }}</h3>
+                        <p>User Profile</p>
                     </div>
-                    <div class="mt-4">
-                        <a href="/" class="btn btn-primary"><i class="bi bi-house"></i> Home</a>
-                        <a href="/dashboard" class="btn btn-secondary"><i class="bi bi-arrow-repeat"></i> Refresh</a>
+                    <div class="icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{ Auth::user()->email }}</h3>
+                        <p>Email Address</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        View Details <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{{ Auth::user()->created_at->format('M d, Y') }}</h3>
+                        <p>Member Since</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        Account Info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>Active</h3>
+                        <p>Account Status</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        Status Details <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {{-- Main content cards --}}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-info-circle"></i>
+                            Welcome to Your Dashboard
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">You have successfully logged in to your account.</p>
+
+                        <div class="alert alert-info alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <h5><i class="icon fas fa-info"></i> Information</h5>
+                            This is a protected page. Only authenticated users can access this area.
+                        </div>
+
+                        <h5>Quick Actions:</h5>
+                        <p>Use the sidebar navigation to access different features of the application.</p>
+
+                        <div class="mt-3">
+                            <a href="{{ route('dashboard') }}" class="btn btn-primary">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </a>
+                            @can('view users')
+                                <a href="{{ route('users.index') }}" class="btn btn-info">
+                                    <i class="fas fa-users"></i> User Management
+                                </a>
+                            @endcan
+                            <a href="#" class="btn btn-secondary">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- User details card --}}
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-user-circle"></i>
+                            Account Information
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Name:</th>
+                                <td>{{ Auth::user()->name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email:</th>
+                                <td>{{ Auth::user()->email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Registered:</th>
+                                <td>{{ Auth::user()->created_at->format('M d, Y H:i') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Last Update:</th>
+                                <td>{{ Auth::user()->updated_at->format('M d, Y H:i') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email Verified:</th>
+                                <td>
+                                    @if(Auth::user()->email_verified_at)
+                                        <span class="badge badge-success">Verified</span>
+                                    @else
+                                        <span class="badge badge-warning">Not Verified</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-shield-alt"></i>
+                            Security & Roles
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Roles:</strong></p>
+                        @if(Auth::user()->roles->count() > 0)
+                            <div class="mb-3">
+                                @foreach(Auth::user()->roles as $role)
+                                    <span class="badge badge-primary mr-1">{{ $role->name }}</span>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-muted">No roles assigned</p>
+                        @endif
+
+                        <p><strong>Permissions:</strong></p>
+                        @if(Auth::user()->permissions->count() > 0)
+                            <div>
+                                @foreach(Auth::user()->permissions->take(10) as $permission)
+                                    <span class="badge badge-info mr-1">{{ $permission->name }}</span>
+                                @endforeach
+                                @if(Auth::user()->permissions->count() > 10)
+                                    <span class="badge badge-secondary">+{{ Auth::user()->permissions->count() - 10 }} more</span>
+                                @endif
+                            </div>
+                        @else
+                            <p class="text-muted">No permissions assigned</p>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+@stop
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-</body>
-</html>
+@section('css')
+    <style>
+        .small-box-footer {
+            text-align: center;
+            padding: 10px 0;
+            display: block;
+            background: rgba(0, 0, 0, 0.05);
+            color: inherit;
+        }
+
+        .small-box-footer:hover {
+            background: rgba(0, 0, 0, 0.1);
+            color: inherit;
+        }
+    </style>
+@stop
+
+@section('js')
+    <script>
+        console.log('Dashboard loaded successfully');
+    </script>
+@stop
