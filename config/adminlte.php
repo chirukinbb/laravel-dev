@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -309,6 +309,16 @@ return [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
+        [
+            'text' => 'Profile',
+            'url' => 'profile',
+            'icon' => 'fas fa-fw fa-user'
+        ],
+        [
+            'text' => 'Change Password',
+            'url' => 'password/change',
+            'icon' => 'fas fa-fw fa-lock'
+        ],
 
         // Sidebar items:
         [
@@ -325,33 +335,6 @@ return [
             'url' => 'users',
             'icon' => 'fas fa-fw fa-users',
             'can' => \App\Http\Enums\PermissionEnum::VIEW_USERS->value,
-        ],
-        [
-            'text' => 'Google Cloud',
-            'icon' => 'fas fa-fw fa-cloud',
-            'submenu' => [
-                [
-                    'text' => 'Settings',
-                    'url' => 'google-cloud',
-                    'icon' => 'fas fa-fw fa-cog',
-                ],
-                [
-                    'text' => 'Projects & Keys',
-                    'url' => 'google-cloud/projects',
-                    'icon' => 'fas fa-fw fa-project-diagram',
-                ],
-            ],
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
         ],
     ],
 
