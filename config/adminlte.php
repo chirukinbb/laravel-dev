@@ -309,22 +309,8 @@ return [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
-        [
-            'text' => 'Profile',
-            'url' => 'profile',
-            'icon' => 'fas fa-fw fa-user'
-        ],
-        [
-            'text' => 'Change Password',
-            'url' => 'password/change',
-            'icon' => 'fas fa-fw fa-lock'
-        ],
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
         [
             'text' => 'Dashboard',
             'url' => 'dashboard',
@@ -335,6 +321,12 @@ return [
             'url' => 'users',
             'icon' => 'fas fa-fw fa-users',
             'can' => \App\Http\Enums\PermissionEnum::VIEW_USERS->value,
+        ],
+        [
+            'text' => 'Settings',
+            'url' => 'settings',
+            'icon' => 'fas fa-fw fa-cogs',
+            'can' => \App\Http\Enums\PermissionEnum::VIEW_SETTINGS->value,
         ],
     ],
 

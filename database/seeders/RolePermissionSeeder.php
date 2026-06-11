@@ -21,6 +21,7 @@ class RolePermissionSeeder extends Seeder
         $viewUsersPermission = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_USERS->value]);
         $editUserRolePermission = Permission::firstOrCreate(['name' => PermissionEnum::EDIT_USER_ROLE->value]);
         $createUserPermission = Permission::firstOrCreate(['name' => PermissionEnum::CREATE_USER->value]);
+        $viewSettingsPermission = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_SETTINGS->value]);
 
         // Create roles
         $masterRole = Role::firstOrCreate(['name' => RoleEnum::MASTER->value]);
@@ -31,6 +32,7 @@ class RolePermissionSeeder extends Seeder
             $viewUsersPermission,
             $editUserRolePermission,
             $createUserPermission,
+            $viewSettingsPermission,
         ]);
 
         // Create master user if not exists

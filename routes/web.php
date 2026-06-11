@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Settings routes
+    Route::get('/settings', [SettingsController::class, 'index'])
+        ->middleware('role.permission:view settings')
+        ->name('settings.index');
+    Route::put('/settings', [SettingsController::class, 'update'])
+        ->middleware('role.permission:view settings')
+        ->name('settings.update');
 
     Route::get('/users', [UserController::class, 'index'])
         ->middleware('role.permission:view users')
