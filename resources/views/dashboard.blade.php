@@ -37,23 +37,12 @@
                             <a href="{{ route('dashboard') }}" class="btn btn-primary">
                                 <i class="fas fa-sync-alt"></i> Refresh
                             </a>
-                            <a href="{{ route('profile') }}" class="btn btn-success">
-                                <i class="fas fa-user"></i> My Profile
-                            </a>
-                            @can('view users')
-                                <a href="{{ route('users.index') }}" class="btn btn-info">
-                                    <i class="fas fa-users"></i> User Management
+                            @foreach($event->getMenuItems() as $item)
+                                @continue(!is_null($item['can']) && !auth()->user()->can($item['can']))
+                                <a href="{{ $item['url'] }}" class="btn btn-success">
+                                    <i class="{{ $item['icon'] }}"></i> {{ $item['name'] }}
                                 </a>
-                            @endcan
-                            <a href="#" class="btn btn-secondary">
-                                <i class="fas fa-cog"></i> Settings
-                            </a>
-                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="fas fa-sign-out-alt"></i> Logout
-                                </button>
-                            </form>
+                            @endforeach
                         </div>
                     </div>
                 </div>

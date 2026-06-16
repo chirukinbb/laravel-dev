@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Http\Enums\PermissionEnum;
-use App\Http\Enums\RoleEnum;
+use App\Enums\PermissionEnum;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;

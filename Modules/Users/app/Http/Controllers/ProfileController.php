@@ -1,32 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\Users\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile.
-     */
     public function index()
     {
         $user = auth()->user();
-        return view('profile', compact('user'));
+        return view('users::profile.index', compact('user'));
     }
 
-    /**
-     * Show the form for editing the user's profile.
-     */
     public function edit()
     {
         $user = auth()->user();
-        return view('profile-edit', compact('user'));
+        return view('users::profile.edit', compact('user'));
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(Request $request)
     {
         $user = auth()->user();

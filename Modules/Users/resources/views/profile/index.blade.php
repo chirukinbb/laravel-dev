@@ -29,7 +29,7 @@
                     <div class="icon">
                         <i class="fas fa-user"></i>
                     </div>
-                    <a href="{{ route('profile') }}" class="small-box-footer">
+                    <a href="{{ route('users::profile.index') }}" class="small-box-footer">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -179,7 +179,7 @@
                         <a href="{{ route('password.request') }}" class="btn btn-warning">
                             <i class="fas fa-key"></i> Change Password
                         </a>
-                        <a href="{{ route('profile.edit') }}" class="btn btn-info">
+                        <a href="{{ route('users::profile.edit') }}" class="btn btn-info">
                             <i class="fas fa-edit"></i> Edit Profile
                         </a>
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">

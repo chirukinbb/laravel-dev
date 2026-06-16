@@ -14,13 +14,13 @@
             <div class="card-header">
                 <h3 class="card-title">User Information</h3>
                 <div class="card-tools">
-                    <a href="{{ route('users.index') }}" class="btn btn-secondary btn-sm">
+                    <a href="{{ route('users::index') }}" class="btn btn-secondary btn-sm">
                         <i class="fas fa-arrow-left"></i> Back to Users
                     </a>
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ route('users.store') }}" method="POST">
+                <form action="{{ route('users::store') }}" method="POST">
                     @csrf
 
                     <div class="form-group">
@@ -85,7 +85,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Create User
                         </button>
-                        <a href="{{ route('users.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('users::index') }}" class="btn btn-secondary">
                             <i class="fas fa-times"></i> Cancel
                         </a>
                     </div>

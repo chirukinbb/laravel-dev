@@ -314,19 +314,15 @@ return [
         [
             'text' => 'Dashboard',
             'url' => 'dashboard',
+            'key' => 'dashboard',
             'icon' => 'fas fa-fw fa-tachometer-alt',
-        ],
-        [
-            'text' => 'User Management',
-            'url' => 'users',
-            'icon' => 'fas fa-fw fa-users',
-            'can' => \App\Http\Enums\PermissionEnum::VIEW_USERS->value,
         ],
         [
             'text' => 'Settings',
             'url' => 'settings',
+            'key' => 'settings',
             'icon' => 'fas fa-fw fa-cogs',
-            'can' => \App\Http\Enums\PermissionEnum::VIEW_SETTINGS->value,
+            'can' => \App\Enums\PermissionEnum::VIEW_SETTINGS->value,
         ],
     ],
 

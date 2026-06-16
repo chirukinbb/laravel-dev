@@ -33,7 +33,7 @@
                 <h3 class="card-title">Users List</h3>
                 <div class="card-tools">
                     @can('create user')
-                        <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('users::create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Create New User
                         </a>
                     @endcan
@@ -77,7 +77,7 @@
 
                                 @can('delete user')
                                     @if($user->id !== auth()->id())
-                                        <form action="{{ route('users.destroy', $user) }}" method="POST"
+                                        <form action="{{ route('users::destroy', $user) }}" method="POST"
                                               class="d-inline">
                                             @csrf
                                             @method('DELETE')
@@ -96,7 +96,7 @@
                             <div class="modal fade" id="roleModal{{ $user->id }}" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <form action="{{ route('users.update-role', $user) }}" method="POST">
+                                        <form action="{{ route('users::update-role', $user) }}" method="POST">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-header">

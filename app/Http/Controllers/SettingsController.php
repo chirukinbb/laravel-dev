@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Enums\SettingEnum;
+use App\Enums\SettingEnum;
 use App\Services\SettingsService;
 use Illuminate\Http\Request;
 

@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
-use App\Http\Enums\SettingEnum;
+use App\Enums\SettingEnum;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
+use function now;
 
 class SettingsService
 {

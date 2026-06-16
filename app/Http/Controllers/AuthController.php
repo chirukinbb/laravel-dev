@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Enums\RoleEnum;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use App\Notifications\NewUserNotification;
 use Illuminate\Http\Request;

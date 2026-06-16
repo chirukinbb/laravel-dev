@@ -20,7 +20,7 @@
                         </h3>
                     </div>
 
-                    <form action="{{ route('profile.update') }}" method="POST">
+                    <form action="{{ route('users::profile.update') }}" method="POST">
                         @csrf
                         @method('PUT')
 
@@ -86,7 +86,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save"></i> Save Changes
                             </button>
-                            <a href="{{ route('profile') }}" class="btn btn-secondary">
+                            <a href="{{ route('users::profile.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-times"></i> Cancel
                             </a>
                         </div>

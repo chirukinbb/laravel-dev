@@ -7,7 +7,6 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Authentication routes
@@ -44,9 +43,7 @@ Route::get("/", function () {
 
 // User management routes (protected)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
 
     // Settings routes
     Route::get('/settings', [SettingsController::class, 'index'])
@@ -56,20 +53,6 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('role.permission:view settings')
         ->name('settings.update');
 
-    Route::get('/users', [UserController::class, 'index'])
-        ->middleware('role.permission:view users')
-        ->name('users.index');
-    Route::get('/users/create', [UserController::class, 'create'])
-        ->middleware('role.permission:create user')
-        ->name('users.create');
-    Route::post('/users', [UserController::class, 'store'])
-        ->middleware('role.permission:create user')
-        ->name('users.store');
-    Route::put('/users/{user}/role', [UserController::class, 'updateRole'])
-        ->middleware('role.permission:edit user role')
-        ->name('users.update-role');
-    Route::delete('/users/{user}', [UserController::class, 'destroy'])
-        ->middleware('role.permission:edit user role')
-        ->name('users.destroy');
+
 });
 
