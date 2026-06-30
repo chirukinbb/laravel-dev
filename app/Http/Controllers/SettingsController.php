@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\SettingEnum;
 use App\Services\SettingsService;
 use Illuminate\Http\Request;
 
@@ -23,13 +22,13 @@ class SettingsController extends Controller
         $settings = [];
 
         // Loop through all enum cases and get their values
-        foreach (SettingEnum::cases() as $case) {
+        foreach ($this->settings->getSettingUnits() as $case) {
             $settings[$case->name()] = $this->settings->get($case, $case->defaultValue());
         }
 
         return view('settings.index', [
             'settings' => $settings,
-            'settingEnum' => SettingEnum::cases(),
+            'settingEnum' => $this->settings->getSettingUnits(),
         ]);
     }
 
@@ -48,10 +47,10 @@ class SettingsController extends Controller
         ]);
 
         // Update each setting
-        foreach (SettingEnum::cases() as $case) {
+        foreach ($this->settings->getSettingUnits() as $case) {
             if ($case->fieldType() === 'checkbox') {
                 // Checkbox: only present if checked
-                $value = $request->has($case->name()) ? true : false;
+                $value = $request->has($case->name());
             } else {
                 $value = $request->input($case->name());
             }

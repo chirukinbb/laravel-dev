@@ -6,19 +6,20 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
-class DashboardEvent
+class SettingsEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $menuItems = [];
+    private Collection $unoits;
 
     /**
      * Create a new event instance.
      */
     public function __construct()
     {
-        //
+        $this->unoits = collect();
     }
 
     /**
@@ -33,13 +34,15 @@ class DashboardEvent
         ];
     }
 
-    public function getMenuItems()
+    public function getSettingUnits(): array
     {
-        return $this->menuItems;
+        return $this->unoits->toArray();
     }
 
-    public function addMenuItems($menuItems)
+    public function addSettingUnits(array $settings)
     {
-        $this->menuItems[] = $menuItems;
+        collect($settings)->each(function (\UnitEnum $setting) {
+            $this->unoits->push($setting);
+        });
     }
 }

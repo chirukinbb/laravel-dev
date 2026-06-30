@@ -3,8 +3,10 @@
 namespace Modules\Users\Providers;
 
 use App\Events\DashboardEvent;
+use App\Events\SettingsEvent;
 use Illuminate\Support\Facades\Event;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
+use Modules\Users\Enums\SettingsEnum;
 use Nwidart\Modules\Support\ModuleServiceProvider;
 
 class UsersServiceProvider extends ModuleServiceProvider
@@ -71,6 +73,10 @@ class UsersServiceProvider extends ModuleServiceProvider
                 'icon' => 'fas fa-fw fa-users',
                 'can' => \App\Enums\PermissionEnum::VIEW_USERS->value,
             ]);
+        });
+
+        Event::listen(SettingsEvent::class, function (SettingsEvent $event) {
+            $event->addSettingUnits(SettingsEnum::cases());
         });
     }
 }

@@ -2,31 +2,49 @@
 
 namespace App\Services;
 
+use App\Contracts\SettingUnitEnum;
 use App\Enums\SettingEnum;
+use App\Events\SettingsEvent;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 use function now;
 
 class SettingsService
 {
+    private array $settings = [];
+    private SettingsEvent $event;
+
+    public function __construct()
+    {
+        $this->event = new SettingsEvent();
+        $this->event->addSettingUnits(SettingEnum::cases());
+        event($this->event);
+
+        Setting::whereIn('name', collect($this->getSettingUnits())->map(function (\UnitEnum $setting) {
+            return $setting->name;
+        }))->get()->map(function ($setting) {
+            $this->settings[$setting->name] = $setting->value;
+        });
+    }
+
     /**
      * Get a setting value by enum key
      */
-    public function get(SettingEnum $key, mixed $default = null): mixed
+    public function get($unitEnum, mixed $default = null): mixed
     {
-        $setting = Setting::where('name', $key->name())->first();
-
-        if ($setting === null) {
+        if (!isset($this->settings[$unitEnum->name()])) {
             return $default;
         }
 
-        return $setting->value;
+        $setting = $this->settings[$unitEnum->name()];
+
+        return $setting;
     }
 
     /**
      * Set a setting value by enum key
      */
-    public function set(SettingEnum $key, mixed $value): Setting
+    public function set($key, mixed $value): Setting
     {
         $setting = Setting::updateOrCreate(
             ['name' => $key->name()],
@@ -47,7 +65,7 @@ class SettingsService
     /**
      * Delete a setting by enum key
      */
-    public function delete(SettingEnum $key): bool
+    public function delete($key): bool
     {
         return Setting::where('name', $key->name())->delete() > 0;
     }
@@ -55,7 +73,7 @@ class SettingsService
     /**
      * Get setting with caching
      */
-    public function getWithCache(SettingEnum $key, mixed $default = null): mixed
+    public function getWithCache($key, mixed $default = null): mixed
     {
         $cacheKey = 'setting_' . $key->name();
 
@@ -67,7 +85,7 @@ class SettingsService
     /**
      * Clear cache for a specific setting
      */
-    public function clearCache(SettingEnum $key): void
+    public function clearCache($key): void
     {
         Cache::forget('setting_' . $key->name());
     }
@@ -80,5 +98,10 @@ class SettingsService
         Setting::all()->each(function ($setting) {
             Cache::forget('setting_' . $setting->name);
         });
+    }
+
+    public function getSettingUnits(): array
+    {
+        return $this->event->getSettingUnits();
     }
 }
